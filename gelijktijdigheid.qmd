@@ -1,0 +1,184 @@
+---
+title: "Gelijktijdigheidsanalyse LPZ stops"
+subtitle: "Met R Tidyverse en het ivs package"
+author: "Martijn Eenink"
+date: "2025-08-27"
+lang: nl
+format:
+  html:
+    toc: true
+    toc-expand: true
+---
+
+# Inleiding
+
+Dit document bevat uitleg over de methode die Netwerkbureau AZO gebruikt voor
+het analyseren van gelijktijdigheid van in LPZ afgekondigde presentatiestops.
+
+We doen dit aan de hand van een fictief voorbeeld, waarbij er gedurende een
+middag door drie verschillende ziekenhuizen presentatiestops worden afgekondigd,
+die elkaar deels overlappen.
+
+## Begrippen: episodes en splits
+
+De tijdlijn voor ons fictieve voorbeeld is als volgt:
+
+![](images/tijdlijn%20kaal.png)
+
+We zien dat er twee clusters van deels overlappende stops zijn. Een in de eerst
+helft van de middag, waarbij alledrie de ziekenhuizen betrokken zijn. En een aan
+het eind van de middag, waarbij alleen Ziekenhuis B en C zijn betrokken. We
+noemen dit soort clusters *episodes*.
+
+Ook zien we dat de intervallen van de individuele presentatiestops kunnen worden
+uitgeplitst naar subintervallen al naar gelang er in een, twee, of drie
+ziekenhuizen een stop gaande is. We noemen deze subintervallen *splits*.
+
+We identificeren in ons voorbeeld 2 episodes en 6 splits:
+
+![](images/tijdlijn%20geannoteerd.png)
+
+Een gelijktijdigheidsanalyse komt neer op:
+
+  1. het identificeren van de episodes en splits
+  1. het produceren van een samenvatting
+
+De samenvatting van de gelijktijdigheidsanalyse kan op allerlei manieren
+plaatsvinden. Wij kiezen er in onderstaand voorbeeld voor om een tabel te
+produceren met de "gelijktijdige" splits (splits met twee of meer stops).
+
+## Voorbeeld in tabelvorm
+
+Voordat we het voorbeeld uitwerken met R, laten we eerst schematisch zien hoe
+input en resultaat er in tabelvorm uitzien.
+
+We beginnen met een tabel met stops:
+
+![Tabel 1: input](images/tabel%20stops%20kaal.png){width=50%}
+
+Vervolgens identificeren we episodes en splits. Dit leidt tot het volgende
+resultaat. Merk op dat de *splits* kolom een geneste structuur heeft:
+
+![Tabel 2: tussenresultaat](images/tabel%20stops%20geannoteerd.png){width=80%}
+
+Tot slot werken we de tabel om naar een die is georganiseerd naar splits. Ook
+deze tabel heeft een geneste structuur:
+
+![Tabel 3: eindresultaat](images/tabel%20splits.png){width=80%}
+
+# Voorbeeldanalyse
+
+## Stap 1: voorbereiding
+
+Allereerst laden we de packages van de Tidyverse:
+
+```{r}
+#| output: false
+library(conflicted)
+library(tidyverse)
+
+conflict_prefer("filter", "dplyr")
+conflict_prefer("lag", "dplyr")
+```
+
+Ik kies er hier bewust voor om de `ivs` package niet te importeren in de globale
+namespace, maar om alle functies uit deze package hieronder aan te roepen met
+`ivs::iv_[functie]`. Zo is in een oogopslag te zien welke plekken van de analyse
+het `ivs` package wordt ingezet.
+
+Vervolgens definiëren we onze voorbeelddataset:
+
+```{r}
+stops <- tribble(
+   ~ organisatie,    ~ vanaf,      ~ tot,
+  "Ziekenhuis A", "13:00:00", "15:30:00",
+  "Ziekenhuis B", "13:30:00", "15:30:00",
+  "Ziekenhuis C", "14:00:00", "16:00:00",
+  "Ziekenhuis C", "16:30:00", "18:30:00",
+  "Ziekenhuis B", "17:00:00", "18:30:00",
+)
+stops <- stops |>
+  mutate(across(vanaf:tot, hms::as_hms))
+```
+
+Ik heb er in dit voorbeeld voor gekozen om alle stops te laten plaatsvinden in
+hetzelfde etmaal. Tijdstippen binnen hetzelfde etmaal kunnen in R
+gerepresenteerd worden met het `hms` datatype uit het `hms` package. In een
+"echte" analyse van presentatiestops uit LPZ zouden we niet alleen werken met
+het tijdstip van een stop, maar ook met de datum.
+
+## Stap 2: intervallen definiëren
+
+De eerste stap van de analyse is om de starttijd en eindtijd van de stop om te
+zetten naar een half-open interval `[vanaf, tot)` met behulp van het `ivs`
+package:
+
+```{r}
+stops <- stops |>
+  mutate(stop = ivs::iv(vanaf, tot)) |>
+  select(organisatie, stop)
+stops
+```
+
+## Stap 3: identificeren van episodes en splits
+
+Vervolgens is het heel eenvoudig om met `ivs` de episodes en splits te
+identificeren:
+
+```{r}
+stops <- stops |>
+  mutate(
+    episode = ivs::iv_identify_group(stop),
+    splits = ivs::iv_identify_splits(stop)
+  )
+stops
+```
+
+Deze tabel heeft de vorm van tabel 2 uit de inleiding.
+
+## Stap 4: converteren naar een tabel op basis van splits
+
+Het resultaat hierboven is een geneste tabel, met voor iedere stop een lijst
+met splits waarin deze stop participeert. Maar om te bepalen op welke momenten er gelijktijdige stops plaatsvinden, moeten we naar een tabel die is georganiseerd naar splits. Dit gaat als volgt:
+
+```{r}
+splits <- stops |>
+  unnest_longer(splits) |>
+  rename(split = splits) |>
+  nest(.by = split, .key = "split_data")
+splits
+```
+
+Deze tabel heeft de vorm van tabel 3 uit de inleiding.
+
+## Stap 5: inzoomen op gelijktijdige splits
+
+We kunnen nu inzoomen op alle momenten waarop er bij meer dan één ziekenhuis een
+stop gaande was. Oftewel alle splits waarbij meer dan één ziekenhuis is
+betrokken:
+
+```{r}
+gelijktijdig <- splits |>
+  filter(map_dbl(split_data, nrow) > 1)
+gelijktijdig
+```
+
+## Stap 6: samenvatten resultaten
+
+Het resultaat hierboven is een geneste tabel, met voor iedere split een subtabel
+met informatie over de aan de split bijdragende stops. We kunnen dit op allerlei
+manieren samenvatten, bijvoorbeeld als volgt:
+
+```{r}
+gelijktijdig |>
+  mutate(
+    organisaties = map_chr(
+      split_data,
+      \(df) df |> pull(organisatie) |> sort() |> str_flatten(collapse = ", ")
+    ),
+    vanaf = ivs::iv_start(split),
+    tot = ivs::iv_end(split),
+  ) |>
+  select(vanaf, tot, organisaties) |>
+  gt::gt() # tabel netjes opmaken met het gt package
+```
