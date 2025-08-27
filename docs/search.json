@@ -1,0 +1,65 @@
+[
+  {
+    "objectID": "gelijktijdigheid.html",
+    "href": "gelijktijdigheid.html",
+    "title": "Gelijktijdigheidsanalyse LPZ stops",
+    "section": "",
+    "text": "Dit document bevat uitleg over de methode die Netwerkbureau AZO gebruikt voor het analyseren van gelijktijdigheid van in LPZ afgekondigde presentatiestops.\nWe doen dit aan de hand van een fictief voorbeeld, waarbij er gedurende een middag door drie verschillende ziekenhuizen presentatiestops worden afgekondigd, die elkaar deels overlappen.\n\n\nDe tijdlijn voor ons fictieve voorbeeld is als volgt:\n\nWe zien dat er twee clusters van deels overlappende stops zijn. Een in de eerst helft van de middag, waarbij alledrie de ziekenhuizen betrokken zijn. En een aan het eind van de middag, waarbij alleen Ziekenhuis B en C zijn betrokken. We noemen dit soort clusters episodes.\nOok zien we dat de intervallen van de individuele presentatiestops kunnen worden uitgeplitst naar subintervallen al naar gelang er in een, twee, of drie ziekenhuizen een stop gaande is. We noemen deze subintervallen splits.\nWe identificeren in ons voorbeeld 2 episodes en 6 splits:\n\nEen gelijktijdigheidsanalyse komt neer op:\n\nhet identificeren van de episodes en splits\nhet produceren van een samenvatting\n\nDe samenvatting van de gelijktijdigheidsanalyse kan op allerlei manieren plaatsvinden. Wij kiezen er in onderstaand voorbeeld voor om een tabel te produceren met de “gelijktijdige” splits (splits met twee of meer stops).\n\n\n\nVoordat we het voorbeeld uitwerken met R, laten we eerst schematisch zien hoe input en resultaat er in tabelvorm uitzien.\nWe beginnen met een tabel met stops:\n\n\n\nTabel 1: input\n\n\nVervolgens identificeren we episodes en splits. Dit leidt tot het volgende resultaat. Merk op dat de splits kolom een geneste structuur heeft:\n\n\n\nTabel 2: tussenresultaat\n\n\nTot slot werken we de tabel om naar een die is georganiseerd naar splits. Ook deze tabel heeft een geneste structuur:\n\n\n\nTabel 3: eindresultaat"
+  },
+  {
+    "objectID": "gelijktijdigheid.html#begrippen-episodes-en-splits",
+    "href": "gelijktijdigheid.html#begrippen-episodes-en-splits",
+    "title": "Gelijktijdigheidsanalyse LPZ stops",
+    "section": "",
+    "text": "De tijdlijn voor ons fictieve voorbeeld is als volgt:\n\nWe zien dat er twee clusters van deels overlappende stops zijn. Een in de eerst helft van de middag, waarbij alledrie de ziekenhuizen betrokken zijn. En een aan het eind van de middag, waarbij alleen Ziekenhuis B en C zijn betrokken. We noemen dit soort clusters episodes.\nOok zien we dat de intervallen van de individuele presentatiestops kunnen worden uitgeplitst naar subintervallen al naar gelang er in een, twee, of drie ziekenhuizen een stop gaande is. We noemen deze subintervallen splits.\nWe identificeren in ons voorbeeld 2 episodes en 6 splits:\n\nEen gelijktijdigheidsanalyse komt neer op:\n\nhet identificeren van de episodes en splits\nhet produceren van een samenvatting\n\nDe samenvatting van de gelijktijdigheidsanalyse kan op allerlei manieren plaatsvinden. Wij kiezen er in onderstaand voorbeeld voor om een tabel te produceren met de “gelijktijdige” splits (splits met twee of meer stops)."
+  },
+  {
+    "objectID": "gelijktijdigheid.html#voorbeeld-in-tabelvorm",
+    "href": "gelijktijdigheid.html#voorbeeld-in-tabelvorm",
+    "title": "Gelijktijdigheidsanalyse LPZ stops",
+    "section": "",
+    "text": "Voordat we het voorbeeld uitwerken met R, laten we eerst schematisch zien hoe input en resultaat er in tabelvorm uitzien.\nWe beginnen met een tabel met stops:\n\n\n\nTabel 1: input\n\n\nVervolgens identificeren we episodes en splits. Dit leidt tot het volgende resultaat. Merk op dat de splits kolom een geneste structuur heeft:\n\n\n\nTabel 2: tussenresultaat\n\n\nTot slot werken we de tabel om naar een die is georganiseerd naar splits. Ook deze tabel heeft een geneste structuur:\n\n\n\nTabel 3: eindresultaat"
+  },
+  {
+    "objectID": "gelijktijdigheid.html#stap-1-voorbereiding",
+    "href": "gelijktijdigheid.html#stap-1-voorbereiding",
+    "title": "Gelijktijdigheidsanalyse LPZ stops",
+    "section": "Stap 1: voorbereiding",
+    "text": "Stap 1: voorbereiding\nAllereerst laden we de packages van de Tidyverse:\n\nlibrary(conflicted)\nlibrary(tidyverse)\n\nconflict_prefer(\"filter\", \"dplyr\")\nconflict_prefer(\"lag\", \"dplyr\")\n\nIk kies er hier bewust voor om de ivs package niet te importeren in de globale namespace, maar om alle functies uit deze package hieronder aan te roepen met ivs::iv_[functie]. Zo is in een oogopslag te zien welke plekken van de analyse het ivs package wordt ingezet.\nVervolgens definiëren we onze voorbeelddataset:\n\nstops &lt;- tribble(\n   ~ organisatie,    ~ vanaf,      ~ tot,\n  \"Ziekenhuis A\", \"13:00:00\", \"15:30:00\",\n  \"Ziekenhuis B\", \"13:30:00\", \"15:30:00\",\n  \"Ziekenhuis C\", \"14:00:00\", \"16:00:00\",\n  \"Ziekenhuis C\", \"16:30:00\", \"18:30:00\",\n  \"Ziekenhuis B\", \"17:00:00\", \"18:30:00\",\n)\nstops &lt;- stops |&gt;\n  mutate(across(vanaf:tot, hms::as_hms))\n\nIk heb er in dit voorbeeld voor gekozen om alle stops te laten plaatsvinden in hetzelfde etmaal. Tijdstippen binnen hetzelfde etmaal kunnen in R gerepresenteerd worden met het hms datatype uit het hms package. In een “echte” analyse van presentatiestops uit LPZ zouden we niet alleen werken met het tijdstip van een stop, maar ook met de datum."
+  },
+  {
+    "objectID": "gelijktijdigheid.html#stap-2-intervallen-definiëren",
+    "href": "gelijktijdigheid.html#stap-2-intervallen-definiëren",
+    "title": "Gelijktijdigheidsanalyse LPZ stops",
+    "section": "Stap 2: intervallen definiëren",
+    "text": "Stap 2: intervallen definiëren\nDe eerste stap van de analyse is om de starttijd en eindtijd van de stop om te zetten naar een half-open interval [vanaf, tot) met behulp van het ivs package:\n\nstops &lt;- stops |&gt;\n  mutate(stop = ivs::iv(vanaf, tot)) |&gt;\n  select(organisatie, stop)\nstops\n\n# A tibble: 5 × 2\n  organisatie                  stop\n  &lt;chr&gt;                  &lt;iv&lt;time&gt;&gt;\n1 Ziekenhuis A [13:00:00, 15:30:00)\n2 Ziekenhuis B [13:30:00, 15:30:00)\n3 Ziekenhuis C [14:00:00, 16:00:00)\n4 Ziekenhuis C [16:30:00, 18:30:00)\n5 Ziekenhuis B [17:00:00, 18:30:00)"
+  },
+  {
+    "objectID": "gelijktijdigheid.html#stap-3-identificeren-van-episodes-en-splits",
+    "href": "gelijktijdigheid.html#stap-3-identificeren-van-episodes-en-splits",
+    "title": "Gelijktijdigheidsanalyse LPZ stops",
+    "section": "Stap 3: identificeren van episodes en splits",
+    "text": "Stap 3: identificeren van episodes en splits\nVervolgens is het heel eenvoudig om met ivs de episodes en splits te identificeren:\n\nstops &lt;- stops |&gt;\n  mutate(\n    episode = ivs::iv_identify_group(stop),\n    splits = ivs::iv_identify_splits(stop)\n  )\nstops\n\n# A tibble: 5 × 4\n  organisatie                  stop              episode           splits\n  &lt;chr&gt;                  &lt;iv&lt;time&gt;&gt;           &lt;iv&lt;time&gt;&gt; &lt;list&lt;iv&lt;time&gt;&gt;&gt;\n1 Ziekenhuis A [13:00:00, 15:30:00) [13:00:00, 16:00:00)              [3]\n2 Ziekenhuis B [13:30:00, 15:30:00) [13:00:00, 16:00:00)              [2]\n3 Ziekenhuis C [14:00:00, 16:00:00) [13:00:00, 16:00:00)              [2]\n4 Ziekenhuis C [16:30:00, 18:30:00) [16:30:00, 18:30:00)              [2]\n5 Ziekenhuis B [17:00:00, 18:30:00) [16:30:00, 18:30:00)              [1]\n\n\nDeze tabel heeft de vorm van tabel 2 uit de inleiding."
+  },
+  {
+    "objectID": "gelijktijdigheid.html#stap-4-converteren-naar-een-tabel-op-basis-van-splits",
+    "href": "gelijktijdigheid.html#stap-4-converteren-naar-een-tabel-op-basis-van-splits",
+    "title": "Gelijktijdigheidsanalyse LPZ stops",
+    "section": "Stap 4: converteren naar een tabel op basis van splits",
+    "text": "Stap 4: converteren naar een tabel op basis van splits\nHet resultaat hierboven is een geneste tabel, met voor iedere stop een lijst met splits waarin deze stop participeert. Maar om te bepalen op welke momenten er gelijktijdige stops plaatsvinden, moeten we naar een tabel die is georganiseerd naar splits. Dit gaat als volgt:\n\nsplits &lt;- stops |&gt;\n  unnest_longer(splits) |&gt;\n  rename(split = splits) |&gt;\n  nest(.by = split, .key = \"split_data\")\nsplits\n\n# A tibble: 6 × 2\n                 split split_data      \n            &lt;iv&lt;time&gt;&gt; &lt;list&gt;          \n1 [13:00:00, 13:30:00) &lt;tibble [1 × 3]&gt;\n2 [13:30:00, 14:00:00) &lt;tibble [2 × 3]&gt;\n3 [14:00:00, 15:30:00) &lt;tibble [3 × 3]&gt;\n4 [15:30:00, 16:00:00) &lt;tibble [1 × 3]&gt;\n5 [16:30:00, 17:00:00) &lt;tibble [1 × 3]&gt;\n6 [17:00:00, 18:30:00) &lt;tibble [2 × 3]&gt;\n\n\nDeze tabel heeft de vorm van tabel 3 uit de inleiding."
+  },
+  {
+    "objectID": "gelijktijdigheid.html#stap-5-inzoomen-op-gelijktijdige-splits",
+    "href": "gelijktijdigheid.html#stap-5-inzoomen-op-gelijktijdige-splits",
+    "title": "Gelijktijdigheidsanalyse LPZ stops",
+    "section": "Stap 5: inzoomen op gelijktijdige splits",
+    "text": "Stap 5: inzoomen op gelijktijdige splits\nWe kunnen nu inzoomen op alle momenten waarop er bij meer dan één ziekenhuis een stop gaande was. Oftewel alle splits waarbij meer dan één ziekenhuis is betrokken:\n\ngelijktijdig &lt;- splits |&gt;\n  filter(map_dbl(split_data, nrow) &gt; 1)\ngelijktijdig\n\n# A tibble: 3 × 2\n                 split split_data      \n            &lt;iv&lt;time&gt;&gt; &lt;list&gt;          \n1 [13:30:00, 14:00:00) &lt;tibble [2 × 3]&gt;\n2 [14:00:00, 15:30:00) &lt;tibble [3 × 3]&gt;\n3 [17:00:00, 18:30:00) &lt;tibble [2 × 3]&gt;"
+  },
+  {
+    "objectID": "gelijktijdigheid.html#stap-6-samenvatten-resultaten",
+    "href": "gelijktijdigheid.html#stap-6-samenvatten-resultaten",
+    "title": "Gelijktijdigheidsanalyse LPZ stops",
+    "section": "Stap 6: samenvatten resultaten",
+    "text": "Stap 6: samenvatten resultaten\nHet resultaat hierboven is een geneste tabel, met voor iedere split een subtabel met informatie over de aan de split bijdragende stops. We kunnen dit op allerlei manieren samenvatten, bijvoorbeeld als volgt:\n\ngelijktijdig |&gt;\n  mutate(\n    organisaties = map_chr(\n      split_data,\n      \\(df) df |&gt; pull(organisatie) |&gt; sort() |&gt; str_flatten(collapse = \", \")\n    ),\n    vanaf = ivs::iv_start(split),\n    tot = ivs::iv_end(split),\n  ) |&gt;\n  select(vanaf, tot, organisaties) |&gt;\n  gt::gt() # tabel netjes opmaken met het gt package\n\n\n\n\n\n\n\nvanaf\ntot\norganisaties\n\n\n\n\n13:30:00\n14:00:00\nZiekenhuis A, Ziekenhuis B\n\n\n14:00:00\n15:30:00\nZiekenhuis A, Ziekenhuis B, Ziekenhuis C\n\n\n17:00:00\n18:30:00\nZiekenhuis B, Ziekenhuis C"
+  }
+]

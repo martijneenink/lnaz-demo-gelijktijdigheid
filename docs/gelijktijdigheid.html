@@ -59,27 +59,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="gelijktijdigheid_files/libs/clipboard/clipboard.min.js"></script>
-<script src="gelijktijdigheid_files/libs/quarto-html/quarto.js" type="module"></script>
-<script src="gelijktijdigheid_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="gelijktijdigheid_files/libs/quarto-html/popper.min.js"></script>
-<script src="gelijktijdigheid_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="gelijktijdigheid_files/libs/quarto-html/anchor.min.js"></script>
-<link href="gelijktijdigheid_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="gelijktijdigheid_files/libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="gelijktijdigheid_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="gelijktijdigheid_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="gelijktijdigheid_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a14e3238c51140e99ccc48519b6ed9ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Geen resultaten",
+    "search-matching-documents-text": "Gevonden documenten",
+    "search-copy-link-title": "Kopieer link om te zoeken",
+    "search-hide-matches-text": "Extra overeenkomsten verbergen",
+    "search-more-match-text": "meer overeenkomst in dit document",
+    "search-more-matches-text": "meer overeenkomsten in dit document",
+    "search-clear-button-title": "Wissen",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuleren",
+    "search-submit-button-title": "Verzenden",
+    "search-label": "Zoeken"
+  }
+}</script>
 
 
 </head>
 
 <body class="quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-  <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
-    <h2 id="toc-title">Inhoudsopgave</h2>
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">Op deze pagina</h2>
    
   <ul>
   <li><a href="#inleiding" id="toc-inleiding" class="nav-link active" data-scroll-target="#inleiding">Inleiding</a>
@@ -98,7 +134,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   </ul>
 </nav>
-</div>
+    </div>
+<!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -140,11 +177,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="begrippen-episodes-en-splits" class="level2">
 <h2 class="anchored" data-anchor-id="begrippen-episodes-en-splits">Begrippen: episodes en splits</h2>
 <p>De tijdlijn voor ons fictieve voorbeeld is als volgt:</p>
-<p><img src="images/tijdlijn%20kaal.png" class="img-fluid"></p>
+<p><img src="images/tijdlijn kaal.png" class="img-fluid"></p>
 <p>We zien dat er twee clusters van deels overlappende stops zijn. Een in de eerst helft van de middag, waarbij alledrie de ziekenhuizen betrokken zijn. En een aan het eind van de middag, waarbij alleen Ziekenhuis B en C zijn betrokken. We noemen dit soort clusters <em>episodes</em>.</p>
 <p>Ook zien we dat de intervallen van de individuele presentatiestops kunnen worden uitgeplitst naar subintervallen al naar gelang er in een, twee, of drie ziekenhuizen een stop gaande is. We noemen deze subintervallen <em>splits</em>.</p>
 <p>We identificeren in ons voorbeeld 2 episodes en 6 splits:</p>
-<p><img src="images/tijdlijn%20geannoteerd.png" class="img-fluid"></p>
+<p><img src="images/tijdlijn geannoteerd.png" class="img-fluid"></p>
 <p>Een gelijktijdigheidsanalyse komt neer op:</p>
 <ol type="1">
 <li>het identificeren van de episodes en splits</li>
@@ -158,21 +195,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We beginnen met een tabel met stops:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/tabel%20stops%20kaal.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<p><img src="images/tabel stops kaal.png" class="img-fluid figure-img" style="width:50.0%"></p>
 <figcaption>Tabel 1: input</figcaption>
 </figure>
 </div>
 <p>Vervolgens identificeren we episodes en splits. Dit leidt tot het volgende resultaat. Merk op dat de <em>splits</em> kolom een geneste structuur heeft:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/tabel%20stops%20geannoteerd.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="images/tabel stops geannoteerd.png" class="img-fluid figure-img" style="width:80.0%"></p>
 <figcaption>Tabel 2: tussenresultaat</figcaption>
 </figure>
 </div>
 <p>Tot slot werken we de tabel om naar een die is georganiseerd naar splits. Ook deze tabel heeft een geneste structuur:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/tabel%20splits.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="images/tabel splits.png" class="img-fluid figure-img" style="width:80.0%"></p>
 <figcaption>Tabel 3: eindresultaat</figcaption>
 </figure>
 </div>
@@ -305,23 +342,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(vanaf, tot, organisaties) <span class="sc">|&gt;</span></span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">gt</span>() <span class="co"># tabel netjes opmaken met het gt package</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="hmhsxadlig" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#hmhsxadlig table {
+<div id="obwmhyuyye" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#obwmhyuyye table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#hmhsxadlig thead, #hmhsxadlig tbody, #hmhsxadlig tfoot, #hmhsxadlig tr, #hmhsxadlig td, #hmhsxadlig th {
+#obwmhyuyye thead, #obwmhyuyye tbody, #obwmhyuyye tfoot, #obwmhyuyye tr, #obwmhyuyye td, #obwmhyuyye th {
   border-style: none;
 }
 
-#hmhsxadlig p {
+#obwmhyuyye p {
   margin: 0;
   padding: 0;
 }
 
-#hmhsxadlig .gt_table {
+#obwmhyuyye .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -347,12 +384,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#hmhsxadlig .gt_caption {
+#obwmhyuyye .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#hmhsxadlig .gt_title {
+#obwmhyuyye .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -364,7 +401,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#hmhsxadlig .gt_subtitle {
+#obwmhyuyye .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -376,7 +413,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#hmhsxadlig .gt_heading {
+#obwmhyuyye .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -388,13 +425,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#hmhsxadlig .gt_bottom_border {
+#obwmhyuyye .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hmhsxadlig .gt_col_headings {
+#obwmhyuyye .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -409,7 +446,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#hmhsxadlig .gt_col_heading {
+#obwmhyuyye .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -429,7 +466,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#hmhsxadlig .gt_column_spanner_outer {
+#obwmhyuyye .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -441,15 +478,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#hmhsxadlig .gt_column_spanner_outer:first-child {
+#obwmhyuyye .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hmhsxadlig .gt_column_spanner_outer:last-child {
+#obwmhyuyye .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hmhsxadlig .gt_column_spanner {
+#obwmhyuyye .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -461,11 +498,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#hmhsxadlig .gt_spanner_row {
+#obwmhyuyye .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#hmhsxadlig .gt_group_heading {
+#obwmhyuyye .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -491,7 +528,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#hmhsxadlig .gt_empty_group_heading {
+#obwmhyuyye .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -506,15 +543,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#hmhsxadlig .gt_from_md > :first-child {
+#obwmhyuyye .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hmhsxadlig .gt_from_md > :last-child {
+#obwmhyuyye .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hmhsxadlig .gt_row {
+#obwmhyuyye .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -533,7 +570,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#hmhsxadlig .gt_stub {
+#obwmhyuyye .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -546,7 +583,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#hmhsxadlig .gt_stub_row_group {
+#obwmhyuyye .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -560,15 +597,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#hmhsxadlig .gt_row_group_first td {
+#obwmhyuyye .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#hmhsxadlig .gt_row_group_first th {
+#obwmhyuyye .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#hmhsxadlig .gt_summary_row {
+#obwmhyuyye .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -578,16 +615,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#hmhsxadlig .gt_first_summary_row {
+#obwmhyuyye .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#hmhsxadlig .gt_first_summary_row.thick {
+#obwmhyuyye .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#hmhsxadlig .gt_last_summary_row {
+#obwmhyuyye .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -597,7 +634,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#hmhsxadlig .gt_grand_summary_row {
+#obwmhyuyye .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -607,7 +644,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#hmhsxadlig .gt_first_grand_summary_row {
+#obwmhyuyye .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -617,7 +654,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#hmhsxadlig .gt_last_grand_summary_row_top {
+#obwmhyuyye .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -627,11 +664,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#hmhsxadlig .gt_striped {
+#obwmhyuyye .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hmhsxadlig .gt_table_body {
+#obwmhyuyye .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -640,7 +677,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#hmhsxadlig .gt_footnotes {
+#obwmhyuyye .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -654,7 +691,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#hmhsxadlig .gt_footnote {
+#obwmhyuyye .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -663,7 +700,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#hmhsxadlig .gt_sourcenotes {
+#obwmhyuyye .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -677,7 +714,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#hmhsxadlig .gt_sourcenote {
+#obwmhyuyye .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -685,72 +722,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#hmhsxadlig .gt_left {
+#obwmhyuyye .gt_left {
   text-align: left;
 }
 
-#hmhsxadlig .gt_center {
+#obwmhyuyye .gt_center {
   text-align: center;
 }
 
-#hmhsxadlig .gt_right {
+#obwmhyuyye .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hmhsxadlig .gt_font_normal {
+#obwmhyuyye .gt_font_normal {
   font-weight: normal;
 }
 
-#hmhsxadlig .gt_font_bold {
+#obwmhyuyye .gt_font_bold {
   font-weight: bold;
 }
 
-#hmhsxadlig .gt_font_italic {
+#obwmhyuyye .gt_font_italic {
   font-style: italic;
 }
 
-#hmhsxadlig .gt_super {
+#obwmhyuyye .gt_super {
   font-size: 65%;
 }
 
-#hmhsxadlig .gt_footnote_marks {
+#obwmhyuyye .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#hmhsxadlig .gt_asterisk {
+#obwmhyuyye .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#hmhsxadlig .gt_indent_1 {
+#obwmhyuyye .gt_indent_1 {
   text-indent: 5px;
 }
 
-#hmhsxadlig .gt_indent_2 {
+#obwmhyuyye .gt_indent_2 {
   text-indent: 10px;
 }
 
-#hmhsxadlig .gt_indent_3 {
+#obwmhyuyye .gt_indent_3 {
   text-indent: 15px;
 }
 
-#hmhsxadlig .gt_indent_4 {
+#obwmhyuyye .gt_indent_4 {
   text-indent: 20px;
 }
 
-#hmhsxadlig .gt_indent_5 {
+#obwmhyuyye .gt_indent_5 {
   text-indent: 25px;
 }
 
-#hmhsxadlig .katex-display {
+#obwmhyuyye .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#hmhsxadlig div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#obwmhyuyye div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -785,11 +822,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+
+
 </section>
 </section>
 
-</main>
-<!-- /main column -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
